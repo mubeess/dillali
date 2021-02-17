@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import React,{useState} from 'react'
 import styled from 'styled-components'
 import AdForm from '../components/AdForm'
+import UserAdForm from '../components/UserForm'
 
 const StyledDash=styled.div`
 min-width:100%;
@@ -130,14 +131,19 @@ margin-top:100px;
 
 export default function Account() {
     const[visible,setVisible]=useState(false)
+    const[userVisible,setUser]=useState(false)
     function handleVisible() {
         const curr=visible;
         setVisible(!curr)
     }
+    function handleUser() {
+        const curr=userVisible;
+        setUser(!curr)
+    }
     return (
         <StyledDash>
         <div className='logDets'>
-         <h4>
+         <h4 onClick={handleUser}>
          Mubarak Ibrahim<UserOutlined></UserOutlined>
          </h4>
 
@@ -221,6 +227,7 @@ export default function Account() {
           </div>
         </div>  
         <AdForm visible={visible} handleVisible={handleVisible}></AdForm>
+        <UserAdForm visible={userVisible} handleVisible={handleUser}></UserAdForm>
         </StyledDash>
     )
 }

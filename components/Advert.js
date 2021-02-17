@@ -1,5 +1,6 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import styled from 'styled-components';
+import AcronymContext from '../context/acronym/acronymContext' 
 import {StarOutlined,UserOutlined,PhoneOutlined,MailOutlined} from '@ant-design/icons'
 import Link from 'next/link';
 import {useRouter} from 'next/router'
@@ -14,6 +15,7 @@ margin-bottom:20px;
 box-shadow:var(--bs);
 min-height:500px;
 border-radius:10px;
+margin-top:40px;
 .picBg{
    border-top-left-radius:10px;
    border-top-right-radius:10px;
@@ -109,8 +111,9 @@ svg{
 }
 `;
 
-export default function Advert(props) {
+export default function Advert({data}) {
     const router=useRouter()
+    const context=useContext(AcronymContext)
     return (
         <StyledAd>
            <div style={{
@@ -122,12 +125,12 @@ export default function Advert(props) {
                backgroundPosition:'center',
              
            }} className='picBg'>
-            <h3>FOR SALE<StarOutlined></StarOutlined><StarOutlined></StarOutlined></h3>
+            <h3>{data.category}<StarOutlined></StarOutlined><StarOutlined></StarOutlined></h3>
            </div>
            <div className='mainDet'>
-               <h1>House For Rent At Demsawo(Negotiable)</h1>
-               <p>mnahhannahahjaj naha nja hja naja nhajakah ajkakha jamba 
-                jakkam makkajau mmakkaha ,anh ndgtjjrnfkks nnabsjgd nmakbxgg.
+               <h1>{data.category} At {data.address}</h1>
+               <p>
+                   {data.description}
                </p>
         <div className='allDet'>               
             <div className='moreDet'>
@@ -142,12 +145,13 @@ export default function Advert(props) {
                  </div>
              </div>
              <div className='price'>
-             <h2>₦200,000</h2> 
+             <h2>₦{data.amount}</h2> 
              </div>
        
          </div>
            </div>
           <Button onClick={()=>{
+              context.setCurrent({data:data,user:{name:'mubis'}})
                router.push(`details/${1}`)
           }} style={{
             marginLeft:'25%',

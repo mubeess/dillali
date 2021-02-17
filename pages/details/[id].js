@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{useContext} from 'react'
+import AcronynmCont from '../../context/acronym/acronymContext'
 import styled from 'styled-components';
 import {MailOutlined, PhoneOutlined, UserOutlined, VerifiedOutlined,AlertOutlined,GlobalOutlined} from '@ant-design/icons'
 import { Button, Input } from 'antd';
@@ -117,6 +118,8 @@ grid-template-columns:1fr 1fr;
     }
 `;
 export default function Details() {
+    const context=useContext(AcronynmCont);
+    const {currentRecords}= context;
     return (
         <StyledDetatils>
          <div className='picss'>
@@ -128,21 +131,21 @@ export default function Details() {
 
 
          <div className='otherDet'>
-          <h1>House Rent Available</h1>
+             {console.log(context)}
+          <h1>{currentRecords.data.category} Available</h1>
      <div className='desc'>
             <span>Description</span>
-          <p>mnahhannahahjaj naha nja hja naja nhajakah ajkakha jamba 
-                jakkam makkajau mmakkaha ,anh ndgtjjrnfkks nnabsjgd nmakbxgg.
+          <p>{currentRecords.data.description}
          </p>
      </div>
      <div className='price'>
-       <h3>₦200,000</h3>
+       <h3>₦{currentRecords.data.amount}</h3>
      </div>
       <div className='otherss'>
        <div><UserOutlined></UserOutlined><h4>Agent:Mubis</h4></div>
        <div><PhoneOutlined></PhoneOutlined><h4>Phone:08164647783</h4></div>
        <div><MailOutlined></MailOutlined><h4>Mail:mja2@gaj</h4></div>
-       <div><GlobalOutlined></GlobalOutlined><h4>Location:Mubi</h4></div>
+       <div><GlobalOutlined></GlobalOutlined><h4>Location:{currentRecords.data.lga},{currentRecords.data.address}</h4></div>
       </div>
       <div className='disclaimer'>
           <AlertOutlined></AlertOutlined>

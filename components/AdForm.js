@@ -15,17 +15,54 @@ h4{
 
 
 export default function AdForm({visible,handleVisible}) {
-    function handleOk({fileList}) {
-        const maxSize=5*1024*1024;
-        if (fileList[0].originFileObj.size>maxSize) {
-            return message.error('Image Size Too Large')
-        }
-        console.log(fileList[0].originFileObj)
+
+    const initalValues={
+        state:'Adamawa State',
+        lga:'',
+        category:'',
+        amount:0,
+        description:'',
+        address:'',
+        
+    }
+    const[options,setOptions]=useState(initalValues)
+    const [imgFile,setImg]=useState([])
+    function handleChang(e) {
+        const {name,value}=e.target;
+        setOptions({
+            ...options,
+            [name]:value
+        })
+       
+    }
+    function handleSelect(val) {
+        setOptions({
+            ...options,
+            lga:val
+        })
+    }
+    function handleSelectCat(val) {
+        setOptions({
+            ...options,
+            category:val
+        })
+    }
+  function handleImg({fileList}) {
+    const maxSize=5*1024*1024;
+    if (fileList[0].originFileObj.size>maxSize) {
+        return message.error('Image Size Too Large')
+    }
+   const imgFile=fileList[0].originFileObj
+   setImg(imgFile)
+
+  }
+    function handleOk() {
+       console.log(options,imgFile)
         
     }
     
     return (
-        <Modal title='Add House'
+        <Modal title='Add Record'
         visible={visible}
         onCancel={handleVisible}
         onOk={handleOk}
@@ -39,9 +76,8 @@ export default function AdForm({visible,handleVisible}) {
 
 
         <h4>L.G.A:</h4>
-        <Select style={{marginTop:'20px'}} defaultValue='Select L.G.A'>
+        <Select onChange={handleSelect}  name='lga' style={{marginTop:'20px'}} defaultValue='Select L.G.A'>
             <Select.Option value='Demsa'>Demsa</Select.Option>
-            <Select.Option value='Fufore'>Fufore</Select.Option>
             <Select.Option value='Fufore'>Fufore</Select.Option>
             <Select.Option value='Ganye'>Ganye</Select.Option>
             <Select.Option value='Gayuk'>Gayuk</Select.Option>
@@ -66,7 +102,7 @@ export default function AdForm({visible,handleVisible}) {
 
 
         <h4>Category:</h4>
-        <Select style={{marginTop:'20px'}} defaultValue='Select Category'>
+        <Select onChange={handleSelectCat} style={{marginTop:'20px'}} defaultValue='Select Category'>
            <Select.Option value='House Rent'>House Rent</Select.Option>
            <Select.Option value='House To Let'>House To Let</Select.Option>
            <Select.Option value='Shop Rent'>Shop Rent</Select.Option>
@@ -74,13 +110,13 @@ export default function AdForm({visible,handleVisible}) {
            <Select.Option value='Others'>Others</Select.Option>
         </Select>
         </MainAdForm>
-        <Input style={{marginTop:'20px'}} type='text' placeholder='Address'></Input>
-        <Input style={{marginTop:'20px'}} type='number' placeholder='Amount in Naira'></Input>
-        <Input.TextArea showCount maxLength={100} style={{marginTop:'20px'}} placeholder='Please Enter A Short Description'></Input.TextArea>
+        <Input onChange={handleChang} name='address' style={{marginTop:'20px'}} type='text' placeholder='Address'></Input>
+        <Input onChange={handleChang} name='amount' style={{marginTop:'20px'}} type='number' placeholder='Amount in Naira'></Input>
+        <Input.TextArea onChange={handleChang} name='description' showCount maxLength={100} style={{marginTop:'20px'}} placeholder='Please Enter A Short Description'></Input.TextArea>
         <Upload 
         listType='picture-card'
         fileList={[]}
-        onChange={handleOk}
+        onChange={handleImg}
         accept='.png,.jpg,.jpeg'
         beforeUpload={()=>false}
      
