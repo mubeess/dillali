@@ -52,23 +52,24 @@ export default function AdForm({visible,handleVisible}) {
             category:val
         })
     }
-  function handleImg({fileList}) {
+ async function handleImg({fileList}) {
     const maxSize=5*1024*1024;
     if (fileList[0].originFileObj.size>maxSize) {
         return message.error('Image Size Too Large')
     }
    const imgFile=fileList[0].originFileObj
-   setImg(imgFile)
+   setImg(imgFile);
+   const name=imgFile.name;
+   const fileRef=storageRef.child(name)
+   await fileRef.put(imgFile)
+       
+   setFileur(await fileRef.getDownloadURL())
 
   }
     async function handleOk() {
     const userEmail=context.user.email;
        const records=firebase.firestore().collection('records');
-       const name=imgFile.name;
-       const fileRef=storageRef.child(name)
-       await fileRef.put(imgFile)
-       setFileur(await fileRef.getDownloadURL())
-
+  
        records.add({
            ...options,
            imgUrl:fileUrl,
@@ -77,7 +78,14 @@ export default function AdForm({visible,handleVisible}) {
            
        }).then(ref=>{
        message.success('suceessfully addedd')
-       setOptions(initalValues)
+       handleVisible()
+    //    context.updateRecord({
+    //        ...options,
+    //        imgUrl:fileUrl,
+    //        createdAt:new Date,
+    //        userMail:userEmail
+    //    })
+    context.getRecords()
     })
 
         

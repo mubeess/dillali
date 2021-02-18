@@ -13,10 +13,6 @@ SET_ISLOGGEDIN
 } from '../types'
 
 export function AuthState(props){
-    useEffect(()=>{
-   getRecords()
-   setUser('user')
-    },[])
     const initState={
         user:{},
         loading:true,
@@ -26,6 +22,15 @@ export function AuthState(props){
      
         
     }
+    useEffect(()=>{
+   getRecords()
+    },[])
+
+    useEffect(()=>{
+        getRecords()
+         },[])
+        
+  
 
 const [state,dispatch]=useReducer(authReducer,initState)
 
@@ -42,15 +47,18 @@ const getRecords=()=>{
     const  allRecords=[]
     db.get().then(snapshot=>{
         snapshot.docs.map(doc=>{
-          const snap=user.doc('383g0RDOpKw08z7wEf6y').get()
+          const snap=user.where('email','==',`mubarakibrahim2015@gmail.com`).get()
           .then(main=>{
               let rowDat=doc.data()
-              rowDat.mainUser=main.data();
-              allRecords.push(rowDat)
+              main.docs.map(dts=>{
+                rowDat.mainUser=dts.data()
+                allRecords.push(rowDat)
+              })
+            //   rowDat.mainUser=main;
+            //   allRecords.push(rowDat)
  })
          .then(dt=>{
           dispatch({type:SET_RECORDS,payload:allRecords})
-          console.log(allRecords)
          })
              
             
@@ -63,11 +71,18 @@ const setIslogged=()=>{
     dispatch({type:SET_ISLOGGEDIN})
 }
 //GET USER
+const updateRecord=(newRecord)=>{
+dispatch({type:SET_RECORDS,payload:newRecord})
+}
 //SET USER
 //SET CURRENT
 const setCurrent=(current)=>{
     dispatch({type:SET_CURRENTRECORD,payload:current})
 }
+
+// const setCurrent=(current)=>{
+//     dispatch({type:SET_CURRENTRECORD,payload:current})
+// }
 const setLoading=()=>dispatch({type:SET_LOADING})
 
 return <AuthContext.Provider
@@ -80,7 +95,8 @@ value={{
     currentRecords:state.currentRecords,
     setCurrent,
     isLogged:state.isLogged,
-    setIslogged
+    setIslogged,
+    updateRecord
 }}
 >
 

@@ -215,7 +215,7 @@ export default function Account() {
                                         width:'10px'
                                     }}></GlobalOutlined></h4>
                                     <h3>₦{dat.amount}</h3>
-                                    <p>{dat.createdAt}<br></br><HistoryOutlined style={{
+                                    <p>2015<br></br><HistoryOutlined style={{
                                         height:'10px',
                                         width:'10px'
                                     }}></HistoryOutlined></p>

@@ -37,7 +37,7 @@ position:relative;
 
 `;
 export default function Home() {
-  const datas =useContext(AuthContext)
+ const datas =useContext(AuthContext)
   const data=datas.records;
   const [searchVal,setSearch]=useState('')
   const [minVal,setMin]=useState(0)
