@@ -1,7 +1,9 @@
 import {PlusOutlined} from '@ant-design/icons';
 import { Input, message, Modal, Select, Upload } from 'antd'
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import styled from 'styled-components';
+import firebase from '../components/firebase'
+import AcronymCont from '../context/acronym/acronymContext'
 
 const MainAdForm=styled.div`
 width:100%;
@@ -15,6 +17,9 @@ h4{
 
 
 export default function AdForm({visible,handleVisible}) {
+    const storageRef=firebase.storage().ref();
+    const [fileUrl,setFileur]=useState('')
+    const context=useContext(AcronymCont)
 
     const initalValues={
         state:'Adamawa State',
@@ -56,8 +61,25 @@ export default function AdForm({visible,handleVisible}) {
    setImg(imgFile)
 
   }
-    function handleOk() {
-       console.log(options,imgFile)
+    async function handleOk() {
+    const userEmail=context.user.email;
+       const records=firebase.firestore().collection('records');
+       const name=imgFile.name;
+       const fileRef=storageRef.child(name)
+       await fileRef.put(imgFile)
+       setFileur(await fileRef.getDownloadURL())
+
+       records.add({
+           ...options,
+           imgUrl:fileUrl,
+           createdAt:new Date,
+           userMail:userEmail
+           
+       }).then(ref=>{
+       message.success('suceessfully addedd')
+       setOptions(initalValues)
+    })
+
         
     }
     

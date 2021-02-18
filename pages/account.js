@@ -1,9 +1,13 @@
 import { LogoutOutlined, UserOutlined,FileAddOutlined, EditFilled, DeleteFilled, GlobalOutlined,HistoryOutlined} from '@ant-design/icons';
 import { Button } from 'antd';
-import React,{useState} from 'react'
+import React,{useState,useContext,useEffect} from 'react'
 import styled from 'styled-components'
 import AdForm from '../components/AdForm'
 import UserAdForm from '../components/UserForm'
+import AcronymCon from '../context/acronym/acronymContext'
+import {useRouter} from 'next/router'
+import Skeleton from '../components/Skeleton'
+import firebase from '../components/firebase'
 
 const StyledDash=styled.div`
 min-width:100%;
@@ -103,6 +107,8 @@ margin-top:100px;
             h4,p{
                 margin-top:5px;
                 color:rgba(0,0,0,0.4);
+                font-family:sans-serif;
+                font-weight:lighter;
             }
             h3{
                 margin-top:5px;
@@ -130,8 +136,31 @@ margin-top:100px;
 `;
 
 export default function Account() {
+    const router=useRouter()
+    const context=useContext(AcronymCon)
+    const [currentData,setCurData]=useState([])
+    const isUser=context.isLogged
+    useEffect(()=>{
+        let dataDisplay=[]
+     if (!isUser) {
+         return router.push('/login')
+     }
+    async function getCurrentdata() {
+        const user= firebase.firestore().collection('records');
+        const snap= await user.where('category','==',`House Rent`).get();
+        snap.docs.map(dat=>{
+            dataDisplay.push(dat.data())
+        })
+        
+        setCurData(dataDisplay);
+
+
+     }
+     getCurrentdata()
+    },[])
     const[visible,setVisible]=useState(false)
     const[userVisible,setUser]=useState(false)
+    
     function handleVisible() {
         const curr=visible;
         setVisible(!curr)
@@ -142,92 +171,95 @@ export default function Account() {
     }
     return (
         <StyledDash>
-        <div className='logDets'>
-         <h4 onClick={handleUser}>
-         Mubarak Ibrahim<UserOutlined></UserOutlined>
-         </h4>
+            {console.log(currentData)}
+            {
+                isUser&&
+                (
+                  <>
+                    <div className='logDets'>
+                    <h4 onClick={handleUser}>
+                    {context.user.firstName}<UserOutlined></UserOutlined>
+                    </h4>
+           
+                    <h4>
+                    Log Out<LogoutOutlined></LogoutOutlined>
+                    </h4>
+                   </div>
+                   <div className='welcome'>
+                    <h1>
+                        Hi, {context.user.firstName} {context.user.lastName} - Welcome To Dillali's Dashboard
+                    </h1>
+                    <h4>
+                        you can add, view, edit and delete your uploads here.
+                   </h4>   
+                   </div>
+                   <div className='mainDash'>
+                     <div className='add'>
+                        <div className='addTab'>
+                           <FileAddOutlined></FileAddOutlined>
+                           <h4>Create New Advert</h4>
+                           <Button onClick={()=>{
+                               handleVisible()
+                           }}>Create</Button>
+                        </div>
+                     </div>
+                     <div className='list'>
+                         {
+                             currentData.length&&
+                             (
+                                 currentData.map((dat,ind)=>(
+                                    <div key={ind} className='mainList'>
+                                    <img src='/rural.png'></img>
+                                    <h4>{dat.category} At {dat.address}<br></br><GlobalOutlined style={{
+                                        height:'10px',
+                                        width:'10px'
+                                    }}></GlobalOutlined></h4>
+                                    <h3>₦{dat.amount}</h3>
+                                    <p>{dat.createdAt}<br></br><HistoryOutlined style={{
+                                        height:'10px',
+                                        width:'10px'
+                                    }}></HistoryOutlined></p>
+                                    <EditFilled style={{
+                                        width:'30px',
+                                      height:'30px',
+                                      marginLeft:'10px',
+                                      cursor: 'pointer'
+                                    }}></EditFilled>
+                                    <DeleteFilled style={{
+                                        color:'red',
+                                        width:'30px',
+                                      height:'30px',
+                                      marginLeft:'10px',
+                                      cursor: 'pointer'
+                                    }}></DeleteFilled>
+                                  </div>
+                             ))
+                                
+                   
+                             )
+                         }
 
-         <h4>
-         Log Out<LogoutOutlined></LogoutOutlined>
-         </h4>
-        </div>
-        <div className='welcome'>
-         <h1>
-             Hi, Mubrak Ibrahim - Welcome To Dillali's Dashboard
-         </h1>
-         <h4>
-             you can add, view, edit and delete your uploads here.
-        </h4>   
-        </div>
-        <div className='mainDash'>
-          <div className='add'>
-             <div className='addTab'>
-                <FileAddOutlined></FileAddOutlined>
-                <h4>Create New Advert</h4>
-                <Button onClick={()=>{
-                    handleVisible()
-                }}>Create</Button>
-             </div>
-          </div>
-          <div className='list'>
-           <div className='mainList'>
-             <img src='/rural.png'></img>
-             <h4>House Rent At Demsawo<br></br><GlobalOutlined style={{
-                 height:'10px',
-                 width:'10px'
-             }}></GlobalOutlined></h4>
-             <h3>200,000</h3>
-             <p>2012/09<br></br><HistoryOutlined style={{
-                 height:'10px',
-                 width:'10px'
-             }}></HistoryOutlined></p>
-             <EditFilled style={{
-                 width:'30px',
-               height:'30px',
-               marginLeft:'10px',
-               cursor: 'pointer'
-             }}></EditFilled>
-             <DeleteFilled style={{
-                 color:'red',
-                 width:'30px',
-               height:'30px',
-               marginLeft:'10px',
-               cursor: 'pointer'
-             }}></DeleteFilled>
-           </div>
-
-
-
-
-           <div className='mainList'>
-             <img src='/rural.png'></img>
-             <h4>House Rent At Demsawo<br></br><GlobalOutlined style={{
-                 height:'10px',
-                 width:'10px'
-             }}></GlobalOutlined></h4>
-             <h3>200,000</h3>
-             <p>2012/09<br></br><HistoryOutlined style={{
-                 height:'10px',
-                 width:'10px'
-             }}></HistoryOutlined></p>
-             <EditFilled style={{
-                 width:'30px',
-               height:'30px',
-               marginLeft:'10px',
-               cursor: 'pointer'
-             }}></EditFilled>
-             <DeleteFilled style={{
-                 color:'red',
-                 width:'30px',
-                height:'30px',
-                marginLeft:'10px',
-               cursor: 'pointer'
-             }}></DeleteFilled>
-           </div>
-          </div>
-        </div>  
-        <AdForm visible={visible} handleVisible={handleVisible}></AdForm>
-        <UserAdForm visible={userVisible} handleVisible={handleUser}></UserAdForm>
+                      {
+                    !currentData.length&&
+                    (
+                        <div style={{
+                            display:'grid',
+                            gridTemplateColumns:'1fr 1fr 1fr'
+                        }}>
+                        <Skeleton></Skeleton>
+                        </div>
+                    )
+                      }
+                      
+                     
+                     </div>
+                   </div>  
+                   <AdForm visible={visible} handleVisible={handleVisible}></AdForm>
+                   <UserAdForm visible={userVisible} handleVisible={handleUser}></UserAdForm>
+                   </>
+                )
+            }
+        
         </StyledDash>
     )
 }

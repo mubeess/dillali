@@ -2,3 +2,4 @@ export const SET_USER='SET_USER';
 export const SET_LOADING='SET_LOADING';
 export const SET_RECORDS='SET_RECORDS';
 export const SET_CURRENTRECORD='SET_CURRENTRECORD';
+export const SET_ISLOGGEDIN='SET_ISLOGGEDIN';

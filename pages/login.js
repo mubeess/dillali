@@ -1,8 +1,11 @@
 import { FacebookOutlined,GoogleOutlined } from '@ant-design/icons';
-import {Divider,Input,Button} from 'antd'
-import React,{useState} from 'react'
+import {Divider,Input,Button, message} from 'antd'
+import React,{useState,useContext} from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
+import firebase from '../components/firebase'
+import AcronymCon from '../context/acronym/acronymContext'
+import {useRouter} from 'next/router'
 const StyledLogin=styled.div`
 margin-top:100px;
 background-color:#f9f9f9;
@@ -59,6 +62,8 @@ h4{
 `;
 
 export default function Login() {
+    const context=useContext(AcronymCon)
+    const router=useRouter()
     const initalValues={
         email:'',
         password:'',
@@ -74,6 +79,27 @@ export default function Login() {
     }
     function handleSubmit() {
         console.log(options)
+        const user=firebase.firestore().collection('users');
+        firebase.auth().signInWithEmailAndPassword(options.email,options.password)
+        .then(dt=>{
+            message.success('Logged In Succesfully')
+            context.setIslogged()
+
+        }).then(dt=>{
+            const snap=user.where('email','==',`${options.email}`).get()
+            .then(dat=>{
+               dat.docs.map(dt=>context.setUser(dt.data()));
+                router.push('/account')
+            })
+            .catch(err=>{
+                message.warn('errrorrr')
+            })
+            
+        })
+        .catch(err=>{
+            message.error('Invalid Login')
+        })
+
     }
     return (
         <StyledLogin>

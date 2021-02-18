@@ -104,6 +104,10 @@ svg{
             @media screen and (max-width:586px){
              div{
                  margin-left:10px;
+                 h4{
+                     font-family:sans-serif;
+                     font-weight:lighter;
+                 }
              }
         }
         }
@@ -135,18 +139,19 @@ export default function Advert({data}) {
         <div className='allDet'>               
             <div className='moreDet'>
                  <div>
-                 <UserOutlined></UserOutlined><h4>Agent Name:Suleiman</h4>
+                 <UserOutlined></UserOutlined><h4>Agent:{data.mainUser.firstName} {data.mainUser.lastName}</h4>
                  </div>
                  <div>
-                <PhoneOutlined></PhoneOutlined><h4>Phone:08164942224</h4>     
+                <PhoneOutlined></PhoneOutlined><h4>Phone:{data.mainUser.phone}</h4>     
                  </div>
                  <div>
-                     <MailOutlined></MailOutlined><h4>Email:mubis@gmail.com</h4>
+                     <MailOutlined></MailOutlined><h4>Email:{data.mainUser.email}</h4>
                  </div>
-             </div>
-             <div className='price'>
+                <div className='price'>
              <h2>₦{data.amount}</h2> 
              </div>
+             </div>
+             
        
          </div>
            </div>

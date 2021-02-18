@@ -126,7 +126,7 @@ export default function Details() {
              <div>
              <VerifiedOutlined></VerifiedOutlined><h4>More Details</h4>
              </div>
-             <img src={'/rural.png'}></img> 
+             <img src={currentRecords.data.imgUrl}></img> 
          </div> 
 
 
@@ -142,9 +142,9 @@ export default function Details() {
        <h3>₦{currentRecords.data.amount}</h3>
      </div>
       <div className='otherss'>
-       <div><UserOutlined></UserOutlined><h4>Agent:Mubis</h4></div>
-       <div><PhoneOutlined></PhoneOutlined><h4>Phone:08164647783</h4></div>
-       <div><MailOutlined></MailOutlined><h4>Mail:mja2@gaj</h4></div>
+       <div><UserOutlined></UserOutlined><h4>Agent:{currentRecords.data.mainUser.firstName}</h4></div>
+       <div><PhoneOutlined></PhoneOutlined><h4>Phone:{currentRecords.data.mainUser.phone}</h4></div>
+       <div><MailOutlined></MailOutlined><h4>Mail:{currentRecords.data.mainUser.email}</h4></div>
        <div><GlobalOutlined></GlobalOutlined><h4>Location:{currentRecords.data.lga},{currentRecords.data.address}</h4></div>
       </div>
       <div className='disclaimer'>
@@ -152,7 +152,7 @@ export default function Details() {
           <i><h5>The Price Mentioned Above is Negotiable</h5></i>
      </div>
      <div className='buts'>
-    <Link href={`tel:{08164942224}`}>
+    <Link href={`tel:{${currentRecords.data.mainUser.phone}}`}>
       <h3><PhoneOutlined></PhoneOutlined>Place Call</h3>
     </Link>
      </div>

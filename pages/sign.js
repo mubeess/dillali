@@ -1,8 +1,9 @@
 import { FacebookOutlined, GoogleOutlined } from '@ant-design/icons';
-import { Button, Divider, Input } from 'antd';
+import { Button, Divider, Input, message } from 'antd';
 import Link from 'next/link';
 import React,{useState} from 'react'
 import styled from 'styled-components'
+import firebase from '../components/firebase'
 
 const StyledFormCont=styled.div`
 margin-top:100px;
@@ -83,6 +84,17 @@ export default function Sign() {
     }
     function handleSubmit() {
         console.log(options)
+        if (options.password==''||options.phone==''||options.email=='') {
+            return message.error('you cant add an empty field')
+        }
+        const users=firebase.firestore().collection('users');
+        users.add(options).then(ref=>{
+            firebase.auth().createUserWithEmailAndPassword(options.email,options.password)
+            .then(dt=>{
+                message.success('Addedd succesfully!!!!!!')
+                setOptions(initalValues)
+            })
+        })
     }
     return (
         <StyledFormCont>
@@ -106,14 +118,14 @@ export default function Sign() {
                 marginRight:'auto'
             }} name='lastName' type='text' placeholder='Last Name'></Input>
            </div>
-           <Input value={options.email} onChange={handleChang}  style={{
+           <Input required value={options.email} onChange={handleChang}  style={{
                width:'100%',
                marginTop:'20px',
               
               
            }} type='email' name='email' placeholder='Email'></Input>
 
-       <Input value={options.phone} onChange={handleChang}  style={{
+       <Input required value={options.phone} onChange={handleChang}  style={{
                width:'100%',
                marginTop:'20px',
               
