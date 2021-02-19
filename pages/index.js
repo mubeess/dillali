@@ -39,6 +39,7 @@ position:relative;
 export default function Home() {
  const datas =useContext(AuthContext)
   const data=datas.records;
+  const seen=new Set()
   const [searchVal,setSearch]=useState('')
   const [minVal,setMin]=useState(0)
   const [maxVal,setMax]=useState(6)
@@ -50,6 +51,11 @@ export default function Home() {
     setCurr(val),setMin(minIndCal),setMax(MaxCalc),window.scrollTo({top:0,behavior:'smooth'})
   }
   const filtered=data.filter(dat=>dat.state.toLowerCase().includes(searchVal.toLowerCase())||dat.lga.toLowerCase().includes(searchVal.toLowerCase())||dat.category.toLowerCase().includes(searchVal.toLowerCase()))
+  const ultraFilterd=filtered.filter(el=>{
+    const duplicate=seen.has(el.imgUrl);
+    seen.add(el.imgUrl)
+    return !duplicate
+  })
   function handleSearch(e) {
     const {value}=e.target;
     setSearch(value)
@@ -58,10 +64,11 @@ export default function Home() {
   return (
     <StyledIn>
       <div className='search'>
+        {console.log(ultraFilterd)}
         <Input onChange={handleSearch} prefix={<SearchOutlined></SearchOutlined>} type='text' placeholder='Search By L.G.A,Ward or Category'></Input>
       </div>
-      {filtered.length&&
-       filtered.map((data,ind)=>
+      {ultraFilterd.length&&
+       ultraFilterd.map((data,ind)=>
         ind>=minVal&&ind<maxVal&&(
         <Advert data={data} key={ind}>
        </Advert>
@@ -90,7 +97,7 @@ export default function Home() {
     )
   }
 <div>
-<Pagination onChange={handleVal} current={curr} total={filtered.length} defaultPageSize={perPage}></Pagination>
+<Pagination onChange={handleVal} current={curr} total={ultraFilterd.length} defaultPageSize={perPage}></Pagination>
 </div>      
     </StyledIn>
   )
