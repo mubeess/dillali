@@ -14,7 +14,7 @@ h4{
 `;
 
 
-export default function UserForm({visible,handleVisible}) {
+export default function UserForm({visible,handleVisible,data}) {
 
     const initalValues={
         state:'Adamawa State',
@@ -74,28 +74,28 @@ export default function UserForm({visible,handleVisible}) {
                 marginLeft:'50%'
             }}
             size='large'>
-                Mu
+                {data.user.firstName.split('')[0].toUpperCase()}{data.user.firstName.split('')[1].toUpperCase()}
             </Avatar>
         <MainAdForm>
             <h4>First Name:</h4>
             <Input style={{
                 marginTop:'20px'
-            }} type='text' value='Mubarak' disabled></Input>
+            }} type='text' value={data.user.firstName} disabled></Input>
 
             <h4>Last Name:</h4>
             <Input style={{
                 marginTop:'20px'
-            }} type='text' value='Ibrahim' disabled></Input>
+            }} type='text' value={data.user.lastName} disabled></Input>
 
           <h4>Email:</h4>
          <Input style={{
                 marginTop:'20px'
-            }} type='email' value='mb@gmail.com' disabled></Input>
+            }} type='email' value={data.user.email} disabled></Input>
 
             <h4>Phone:</h4>
             <Input style={{
                 marginTop:'20px'
-            }} type='number' value='1234' disabled></Input>
+            }} type='number' value={data.user.phone} disabled></Input>
            
         </MainAdForm>
         <h3 style={{

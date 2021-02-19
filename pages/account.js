@@ -1,5 +1,5 @@
 import { LogoutOutlined, UserOutlined,FileAddOutlined, EditFilled, DeleteFilled, GlobalOutlined,HistoryOutlined} from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Empty } from 'antd';
 import React,{useState,useContext,useEffect} from 'react'
 import styled from 'styled-components'
 import AdForm from '../components/AdForm'
@@ -147,7 +147,7 @@ export default function Account() {
      }
     async function getCurrentdata() {
         const user= firebase.firestore().collection('records');
-        const snap= await user.where('category','==',`House Rent`).get();
+        const snap= await user.where('userMail','==',context.user.email).get();
         snap.docs.map(dat=>{
             dataDisplay.push(dat.data())
         })
@@ -187,6 +187,7 @@ export default function Account() {
                    </div>
                    <div className='welcome'>
                     <h1>
+                        {console.log(context)}
                         Hi, {context.user.firstName} {context.user.lastName} - Welcome To Dillali's Dashboard
                     </h1>
                     <h4>
@@ -244,8 +245,9 @@ export default function Account() {
                     (
                         <div style={{
                             display:'grid',
-                            gridTemplateColumns:'1fr 1fr 1fr'
+                            gridTemplateColumns:'1fr 1fr'
                         }}>
+                        <Empty></Empty>
                         <Skeleton></Skeleton>
                         </div>
                     )
@@ -255,7 +257,7 @@ export default function Account() {
                      </div>
                    </div>  
                    <AdForm visible={visible} handleVisible={handleVisible}></AdForm>
-                   <UserAdForm visible={userVisible} handleVisible={handleUser}></UserAdForm>
+                   <UserAdForm data={context} visible={userVisible} handleVisible={handleUser}></UserAdForm>
                    </>
                 )
             }
