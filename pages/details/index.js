@@ -123,8 +123,6 @@ export default function Details() {
     const {currentRecords}= context;
     return (
         <StyledDetatils>
-            {
-                !currentRecords&&(
                     <div style={{
                         display:'grid',
                         gridTemplateColumns:'1fr 1fr'
@@ -132,52 +130,6 @@ export default function Details() {
                       <Skeleton></Skeleton>
                     </div>
                     
-                )
-            }
-            {
-                currentRecords&&
-                (
-                  <>
-                  <div className='picss'>
-                    <div>
-                    <VerifiedOutlined></VerifiedOutlined><h4>More Details</h4>
-                    </div>
-                    <img src={currentRecords.data.imgUrl} alt='image'></img> 
-                </div> 
-       
-       
-                <div className='otherDet'>
-       
-                    {console.log(currentRecords,'cuuuu')}
-                 <h1>{currentRecords.data.category} Available</h1>
-            <div className='desc'>
-                   <span>Description</span>
-                 <p>{currentRecords.data.description}
-                </p>
-            </div>
-            <div className='price'>
-              <h3>₦{currentRecords.data.amount}</h3>
-            </div>
-             <div className='otherss'>
-              <div><UserOutlined></UserOutlined><h4>Agent:{currentRecords.data.mainUser.firstName}</h4></div>
-              <div><PhoneOutlined></PhoneOutlined><h4>Phone:{currentRecords.data.mainUser.phone}</h4></div>
-              <div><MailOutlined></MailOutlined><h4>Mail:{currentRecords.data.mainUser.email}</h4></div>
-              <div><GlobalOutlined></GlobalOutlined><h4>Location:{currentRecords.data.lga},{currentRecords.data.address}</h4></div>
-             </div>
-             <div className='disclaimer'>
-                 <AlertOutlined></AlertOutlined>
-                 <i><h5>The Price Mentioned Above is Negotiable</h5></i>
-            </div>
-            <div className='buts'>
-           <Link href={`tel:{${currentRecords.data.mainUser.phone}}`}>
-             <h3><PhoneOutlined></PhoneOutlined>Place Call</h3>
-           </Link>
-            </div>
-           </div>
-           </>
-                )
-            }
-        
         </StyledDetatils>
     )
 }
