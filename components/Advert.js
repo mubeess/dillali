@@ -121,7 +121,7 @@ export default function Advert({data}) {
     return (
         <StyledAd>
            <div style={{
-               background:`linear-gradient(to right, rgba(0, 0, 0, 0.209),rgba(0, 0, 0, 0.309)),url('${data.imgUrl}'),no-repeat,center`,
+               background:`linear-gradient(to right, rgba(0, 0, 0, 0.209),rgba(0, 0, 0, 0.309)),url('${data.imgUrl?data.imgUr:'/rural.png'}'),no-repeat,center`,
                height:'200px',
                width:'100%',
                
