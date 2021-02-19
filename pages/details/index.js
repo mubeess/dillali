@@ -126,12 +126,13 @@ export default function Details() {
              <div>
              <VerifiedOutlined></VerifiedOutlined><h4>More Details</h4>
              </div>
-             <img src={currentRecords.data.imgUrl?currentRecords.data.imgUrl:'/rural.png'} alt='image'></img> 
+             <img src='/rural.png' alt='image'></img> 
          </div> 
 
 
          <div className='otherDet'>
-             {console.log(context)}
+
+             {console.log(currentRecords,'cuuuu')}
           <h1>{currentRecords.data.category} Available</h1>
      <div className='desc'>
             <span>Description</span>
