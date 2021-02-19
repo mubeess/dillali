@@ -140,24 +140,33 @@ export default function Account() {
     const context=useContext(AcronymCon)
     const [currentData,setCurData]=useState([])
     const isUser=context.isLogged
+    let dataDisplay=[]
     useEffect(()=>{
-        let dataDisplay=[]
+       
      if (!isUser) {
          return router.push('/login')
      }
-    async function getCurrentdata() {
+     function getCurrentdata() {
         const user= firebase.firestore().collection('records');
-        const snap= await user.where('userMail','==',context.user.email).get();
-        snap.docs.map(dat=>{
-            dataDisplay.push(dat.data())
+        user.where('userMail','==',context.user.email).onSnapshot(snap=>{
+            snap.docs.map(doc=>{
+                console.log(doc.data())
+                dataDisplay.push(doc.data())
+            })
+            setCurData(dataDisplay)
         })
+            
+        // const snap= await user.where('userMail','==',context.user.email).get();
+        // snap.docs.map(dat=>{
+        //     dataDisplay.push(dat.data())
+        // })
         
-        setCurData(dataDisplay);
-
+        // setCurData(dataDisplay);
 
      }
      getCurrentdata()
     },[])
+   
     const[visible,setVisible]=useState(false)
     const[userVisible,setUser]=useState(false)
     

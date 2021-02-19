@@ -23,7 +23,8 @@ export function AuthState(props){
         
     }
     useEffect(()=>{
-   getRecords()
+   updateRecord()
+
     },[])
 
 const [state,dispatch]=useReducer(authReducer,initState)
@@ -65,8 +66,27 @@ const setIslogged=()=>{
     dispatch({type:SET_ISLOGGEDIN})
 }
 //GET USER
-const updateRecord=(newRecord)=>{
-dispatch({type:SET_RECORDS,payload:newRecord})
+const updateRecord=()=>{
+    const db=firebase.firestore().collection('records');
+    const user=firebase.firestore().collection('users');
+    const  allRecords=[]
+    db.onSnapshot(snapshot=>{
+        snapshot.docs.map(doc=>{
+        user.where('email','==',doc.data().userMail).get()
+            .then(main=>{
+                let rowDat=doc.data()
+                main.docs.map(dts=>{
+                  rowDat.mainUser=dts.data()
+                  allRecords.push(rowDat)
+                })
+              //   rowDat.mainUser=main;
+              //   allRecords.push(rowDat)
+   })
+   .then(dt=>{
+    dispatch({type:SET_RECORDS,payload:allRecords})
+   })
+        })
+    })
 }
 //SET USER
 //SET CURRENT
