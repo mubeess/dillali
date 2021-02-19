@@ -155,7 +155,7 @@ export default function Advert({data}) {
            </div>
           <Button onClick={()=>{
               context.setCurrent({data:data,user:{name:'mubis'}})
-               router.push(`details/${1}`)
+               router.push(`details/`)
           }} style={{
             marginLeft:'25%',
             marginTop:'20px',
