@@ -47,7 +47,7 @@ const getRecords=()=>{
     const  allRecords=[]
     db.get().then(snapshot=>{
         snapshot.docs.map(doc=>{
-          const snap=user.where('email','==',`mubarakibrahim2015@gmail.com`).get()
+          const snap=user.where('email','==',doc.data().userMail).get()
           .then(main=>{
               let rowDat=doc.data()
               main.docs.map(dts=>{

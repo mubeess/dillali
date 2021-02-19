@@ -121,12 +121,10 @@ export default function Advert({data}) {
     return (
         <StyledAd>
            <div style={{
-               background:`linear-gradient(to right, rgba(0, 0, 0, 0.209),rgba(0, 0, 0, 0.309)),url(/rural.png)`,
+               background:`linear-gradient(to right, rgba(0, 0, 0, 0.209),rgba(0, 0, 0, 0.309)),url('${data.imgUrl}'),no-repeat,center`,
                height:'200px',
                width:'100%',
-               backgroundRepeat:'no-repeat',
-               backgroundSize:'contain',
-               backgroundPosition:'center',
+               
              
            }} className='picBg'>
             <h3>{data.category}<StarOutlined></StarOutlined><StarOutlined></StarOutlined></h3>

@@ -69,6 +69,9 @@ export default function AdForm({visible,handleVisible}) {
     async function handleOk() {
     const userEmail=context.user.email;
        const records=firebase.firestore().collection('records');
+       if (!fileUrl) {
+           return message.warn('please wait for image')
+       }
   
        records.add({
            ...options,
@@ -85,7 +88,7 @@ export default function AdForm({visible,handleVisible}) {
     //        createdAt:new Date,
     //        userMail:userEmail
     //    })
-    context.getRecords()
+    // context.getRecords()
     })
 
         
