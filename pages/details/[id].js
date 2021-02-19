@@ -126,7 +126,7 @@ export default function Details() {
              <div>
              <VerifiedOutlined></VerifiedOutlined><h4>More Details</h4>
              </div>
-             <img src={currentRecords.data.imgUrl}></img> 
+             <img src={currentRecords.data.imgUrl?currentRecords.data.imgUrl:'/rural.png'} alt='image'></img> 
          </div> 
 
 
