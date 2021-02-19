@@ -26,12 +26,6 @@ export function AuthState(props){
    getRecords()
     },[])
 
-    useEffect(()=>{
-        getRecords()
-         },[])
-        
-  
-
 const [state,dispatch]=useReducer(authReducer,initState)
 
 //GET ACR

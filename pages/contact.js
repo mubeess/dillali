@@ -58,7 +58,7 @@ export default function Contact() {
                   marginLeft:'30px',
                   marginTop:'20px'
               }} showCount maxLength={100}></Input.TextArea>
-              <a href={`mailto:{mubarakibrahim2015@gmail.com}?subject={${options.email}}&body={${options.message}}`}><Button style={{
+              <a href={`mailto:mubarakibrahim2015@gmail.com?subject=${options.email}&body=${options.message}`}><Button style={{
                   width:'50%',
                   marginLeft:'25%',
                   marginTop:'20px'

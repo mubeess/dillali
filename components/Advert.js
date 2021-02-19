@@ -121,7 +121,7 @@ export default function Advert({data}) {
     return (
         <StyledAd>
            <div style={{
-               background:`linear-gradient(to right, rgba(0, 0, 0, 0.209),rgba(0, 0, 0, 0.309)),url('${data.imgUrl?data.imgUr:'/rural.png'}'),no-repeat,center`,
+               background:`linear-gradient(to right, rgba(0, 0, 0, 0.209),rgba(0, 0, 0, 0.309)),url(${data.imgUrl}),no-repeat,center`,
                height:'200px',
                width:'100%',
                
@@ -154,8 +154,9 @@ export default function Advert({data}) {
          </div>
            </div>
           <Button onClick={()=>{
-              context.setCurrent({data:data,user:{name:'mubis'}})
+              context.setCurrent([data])
                router.push(`details/`)
+               console.log([data],'seteeeeee')
           }} style={{
             marginLeft:'25%',
             marginTop:'20px',
