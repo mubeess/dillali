@@ -1,9 +1,10 @@
 import {PlusOutlined} from '@ant-design/icons';
 import { Input, message, Modal, Select, Upload } from 'antd'
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext, useEffect} from 'react'
 import styled from 'styled-components';
 import firebase from '../components/firebase'
 import AcronymCont from '../context/acronym/acronymContext'
+import NaijaState from 'naija-state-local-government'
 
 const MainAdForm=styled.div`
 width:100%;
@@ -17,8 +18,14 @@ h4{
 
 
 export default function AdForm({visible,handleVisible}) {
+    useEffect(()=>{
+        console.log(NaijaState.states())
+        setState(NaijaState.states())
+    },[])
+    const [localGovs,setLocalGovs]=useState(['Select Local Gov'])
     const storageRef=firebase.storage().ref();
     const [fileUrl,setFileur]=useState('')
+    const [states,setState]=useState(['Select State'])
     const context=useContext(AcronymCont)
 
     const initalValues={
@@ -93,6 +100,15 @@ export default function AdForm({visible,handleVisible}) {
 
         
     }
+    function handleStateChange(val) {
+     let lgas= NaijaState.lgas(`${val}`)
+     setLocalGovs(lgas.lgas)
+     setOptions({
+         ...options,
+         state:val
+     })
+    
+    }
     
     return (
         <Modal title='Add Record'
@@ -103,34 +119,25 @@ export default function AdForm({visible,handleVisible}) {
         >
         <MainAdForm>
         <h4>State:</h4>
-        <Select style={{marginTop:'20px'}} defaultValue='Adamawa State' disabled>
-            <Select.Option value='adamawa state'>Adamawa State</Select.Option>
+        <Select onChange={handleStateChange} defaultValue='Select State' style={{marginTop:'20px'}}>
+            {
+                states.map((state)=>(
+                    <Select.Option key={state} value={state}>{state}</Select.Option>
+                ))
+            }
+          
         </Select>
 
 
         <h4>L.G.A:</h4>
         <Select onChange={handleSelect}  name='lga' style={{marginTop:'20px'}} defaultValue='Select L.G.A'>
-            <Select.Option value='Demsa'>Demsa</Select.Option>
-            <Select.Option value='Fufore'>Fufore</Select.Option>
-            <Select.Option value='Ganye'>Ganye</Select.Option>
-            <Select.Option value='Gayuk'>Gayuk</Select.Option>
-            <Select.Option value='Gombi'>Gombi</Select.Option>
-            <Select.Option value='Grie'>Grie</Select.Option>
-            <Select.Option value='Hong'>Hong</Select.Option>
-            <Select.Option value='Jada'>Jada</Select.Option>
-            <Select.Option value='Larmorde'>Larmorde</Select.Option>
-            <Select.Option value='Madagali'>Madagali</Select.Option>
-            <Select.Option value='Maiha'>Maiha</Select.Option>
-            <Select.Option value='Mayo Belwa'>Mayo Belwa</Select.Option>
-            <Select.Option value='Michika'>Michika</Select.Option>
-            <Select.Option value='Mubi North'>Mubi North</Select.Option>
-            <Select.Option value='Mubi South'>Mubi South</Select.Option>
-            <Select.Option value='Numan'>Numan</Select.Option>
-            <Select.Option value='Shelleng'>Shelleng</Select.Option>
-            <Select.Option value='Song'>Song</Select.Option>
-            <Select.Option value='Toungo'>Toungo</Select.Option>
-            <Select.Option value='Yola North'>Yola North</Select.Option>
-            <Select.Option value='Yola South'>Yola South</Select.Option>
+            {
+                localGovs.map((lga)=>(
+                    <Select.Option value={lga}>{lga}</Select.Option>
+                    
+                ))
+            }
+            
         </Select>
 
 
@@ -140,6 +147,8 @@ export default function AdForm({visible,handleVisible}) {
            <Select.Option value='House To Let'>House To Let</Select.Option>
            <Select.Option value='Shop Rent'>Shop Rent</Select.Option>
            <Select.Option value='Shop To Let'>Shop To Let</Select.Option>
+           <Select.Option value='Car Rent'>Car Rent</Select.Option>
+           <Select.Option value='Car To Let'>Car To Let</Select.Option>
            <Select.Option value='Others'>Others</Select.Option>
         </Select>
         </MainAdForm>
