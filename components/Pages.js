@@ -1,4 +1,5 @@
 import Header from './Header'
+import Head from 'next/head'
 import styled,{createGlobalStyle} from 'styled-components'
 import Footer from './Footer';
 
@@ -61,8 +62,20 @@ const Logo = styled.h1`
 export default function Pages({children}) {
     return (
         <div>
+          <Head>
+ <title>Dillali | App For Agents | Find Available House Rent,House To Let, and Car Sale from Your Location </title>
+<meta name="description" content="Agents for both houses and cars in Nigeria are lacking a unique and enhaced plartform to connect them with those in need, these plartform brings the cure."/>
+<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+<meta property="og:title" content="Dillali | App for agents" />
+<meta property="og:url" content="https://www.dillali.vercel.app" />
+<meta property="og:image" content="/logo.png" />
+<link rel="icon" href="/logo1.png" />
+
+          </Head>
           <GlobalStyles></GlobalStyles>
-          <Header></Header>
+          <Header>
+          
+          </Header>
           {children} 
           <Footer></Footer>
         </div>
