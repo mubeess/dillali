@@ -1,9 +1,12 @@
 import { FacebookOutlined, GoogleOutlined } from '@ant-design/icons';
 import { Button, Divider, Input, message } from 'antd';
 import Link from 'next/link';
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
+import AcronCo from '../context/acronym/acronymContext'
 import styled from 'styled-components'
 import firebase from '../components/firebase'
+import firebaseApp from 'firebase/app'
+import {useRouter} from 'next/router'
 
 const StyledFormCont=styled.div`
 margin-top:100px;
@@ -74,6 +77,9 @@ export default function Sign() {
         password:'',
         address:''
     }
+    const context=useContext(AcronCo)
+    const router=useRouter()
+    const [google,setgoo]=useState('')
     const[options,setOptions]=useState(initalValues)
     function handleChang(e) {
         const {name,value}=e.target;
@@ -96,6 +102,89 @@ export default function Sign() {
             })
         })
     }
+    function handleGoogleAuth() {
+        var provider=new firebaseApp.auth.GoogleAuthProvider()
+        const users=firebase.firestore().collection('users');
+        firebase.auth()
+       .signInWithPopup(provider)
+       .then((result) => {
+    /** @type {firebase.auth.OAuthCredential} */
+       var credential = result.credential;
+    var token = credential.accessToken;
+    var user = result.user;
+    if (user.emailVerified) {
+        const name=user.displayName;
+        const email=user.email;
+        const isNew=  result.additionalUserInfo.isNewUser
+        if (isNew) {
+            let phone=null;
+            if (!user.phoneNumber) {
+                phone=prompt('enter your phone number');
+                }else{
+                    phone=user.phoneNumber;
+                }
+
+                if ( phone!= null) {
+                    console.log(name,email,phone)
+                    const firstName=name.split(' ')[0];
+                    const secondName=name.split(' ')[1];
+                    const mail=email;
+                    const phoneNum=phone;
+          
+                    
+                    users.add(
+                      {
+                          firstName,
+                          lastName:secondName,
+                          email:mail,
+                          phone:phoneNum
+                      }
+                    ).then(ref=>{
+                      message.success('addedd success')
+                      router.push('/login')
+                    })
+                    }
+            
+        }
+       
+      if (!isNew) {
+        message.success('Logged In Succesfully')
+        context.setIslogged()
+        users.where('email','==',`${email}`).get()
+        .then(dat=>{
+           dat.docs.map(dt=>context.setUser(dt.data()));
+            router.push('/account')
+        })
+      }
+      
+      
+    }
+    // ...
+  }).catch((error) => {
+   console.log(error)
+  });
+
+
+  firebase.auth()
+  .getRedirectResult()
+  .then((result) => {
+      /** @type {firebase.auth.OAuthCredential} */
+      var credential = result.credential;
+  
+
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = credential.accessToken;
+    // The signed-in user info.
+    var user = result.user;
+  }).catch((error) => {
+   console.log(error)
+    // ...
+  });
+
+
+
+
+    }
     return (
         <StyledFormCont>
           <div className='form'>
@@ -103,7 +192,7 @@ export default function Sign() {
           <h4>Sign up with your facebook or gmail acccount</h4>
           <div className='social'>
            <h4><FacebookOutlined></FacebookOutlined>facebook</h4>
-           <h4><GoogleOutlined></GoogleOutlined>Google</h4>
+           <h4 onClick={handleGoogleAuth}><GoogleOutlined></GoogleOutlined>Google</h4>
           </div>
           <Divider>Or</Divider>
           <div className='mainForm'>
