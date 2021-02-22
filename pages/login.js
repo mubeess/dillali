@@ -35,7 +35,7 @@ overflow:hidden;
         justify-content:center;
         align-items:center;
         h4{
-            width:100px;
+            width:80%;
             height:30px;
             background-color:red;
             margin:20px;
@@ -81,6 +81,7 @@ export default function Login() {
     function handleSubmit() {
         console.log(options)
         const user=firebase.firestore().collection('users');
+        context.setLoading()
         firebase.auth().signInWithEmailAndPassword(options.email,options.password)
         .then(dt=>{
             message.success('Logged In Succesfully')
@@ -90,15 +91,18 @@ export default function Login() {
             const snap=user.where('email','==',`${options.email}`).get()
             .then(dat=>{
                dat.docs.map(dt=>context.setUser(dt.data()));
+               context.setLoading()
                 router.push('/account')
             })
             .catch(err=>{
                 message.warn('errrorrr')
+                context.setLoading()
             })
             
         })
         .catch(err=>{
             message.error('Invalid Login')
+            context.setLoading()
         })
 
     }
@@ -108,6 +112,7 @@ export default function Login() {
     function handleGoogleAuth() {
         var provider=new firebaseApp.auth.GoogleAuthProvider()
         const users=firebase.firestore().collection('users');
+        context.setLoading()
         firebase.auth()
        .signInWithPopup(provider)
        .then((result) => {
@@ -122,6 +127,7 @@ export default function Login() {
         if (isNew) {
             let phone=null;
             if (!user.phoneNumber) {
+                context.setLoading()
                 phone=prompt('enter your phone number');
                 }else{
                     phone=user.phoneNumber;
@@ -144,7 +150,16 @@ export default function Login() {
                       }
                     ).then(ref=>{
                       message.success('addedd success, click the again to login')
-                      router.push('/login')
+                       router.push('/login')
+                      if (user.phoneNumber) {
+                        context.setLoading()
+                      }
+                    })
+                    .catch(err=>{
+                        message.error('errro signup')
+                        if (user.phoneNumber) {
+                            context.setLoading()
+                          }
                     })
                     }
             
@@ -156,7 +171,12 @@ export default function Login() {
         users.where('email','==',`${email}`).get()
         .then(dat=>{
            dat.docs.map(dt=>context.setUser(dt.data()));
+           context.setLoading()
             router.push('/account')
+        })
+        .catch(err=>{
+            message.error('erroor')
+            context.setLoading()
         })
       }
       
@@ -164,7 +184,8 @@ export default function Login() {
     }
     // ...
   }).catch((error) => {
-   console.log(error)
+   message.error('erroorr')
+   context.setLoading()
   });
 
 
@@ -192,9 +213,8 @@ export default function Login() {
         <StyledLogin>
             <div className='loginForm'>
                 <h1>Log In</h1>
-                <h4>Log In with your social media accounts</h4>
+                <h4>Log In with your google accounts</h4>
             <div className='social'>
-           <h4><FacebookOutlined></FacebookOutlined>facebook</h4>
            <h4 onClick={handleGoogleAuth}><GoogleOutlined></GoogleOutlined>Google</h4>
           </div>
           <Divider>Or</Divider>

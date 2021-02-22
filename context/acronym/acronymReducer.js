@@ -9,9 +9,10 @@ import {
 const AcronymReducer= (state,action)=>{
 switch(action.type){
 case SET_LOADING:
+    let curr =state.loading
     return{
         ...state,
-        loading:true
+        loading:!curr
     }
 case SET_USER:
         return{

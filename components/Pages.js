@@ -2,6 +2,7 @@ import Header from './Header'
 import Head from 'next/head'
 import styled,{createGlobalStyle} from 'styled-components'
 import Footer from './Footer';
+import Spinner from './Spinner';
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -73,11 +74,10 @@ export default function Pages({children}) {
 
           </Head>
           <GlobalStyles></GlobalStyles>
-          <Header>
-          
-          </Header>
+          <Header> </Header>
           {children} 
           <Footer></Footer>
+          <Spinner></Spinner>
         </div>
     )
 }

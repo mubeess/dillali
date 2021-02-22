@@ -15,7 +15,7 @@ SET_ISLOGGEDIN
 export function AuthState(props){
     const initState={
         user:{},
-        loading:true,
+        loading:false,
         records:[],
         currentRecords:{},
         isLogged:false
@@ -110,7 +110,8 @@ value={{
     setCurrent,
     isLogged:state.isLogged,
     setIslogged,
-    updateRecord
+    updateRecord,
+    setLoading
 }}
 >
 

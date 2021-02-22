@@ -75,6 +75,7 @@ export default function AdForm({visible,handleVisible}) {
   }
     async function handleOk() {
     const userEmail=context.user.email;
+    context.setLoading()
        const records=firebase.firestore().collection('records');
        if (!fileUrl) {
            return message.warn('please wait for image')
@@ -88,6 +89,7 @@ export default function AdForm({visible,handleVisible}) {
            
        }).then(ref=>{
        message.success('suceessfully addedd')
+       context.setLoading()
        handleVisible()
     //    context.updateRecord({
     //        ...options,
@@ -96,6 +98,11 @@ export default function AdForm({visible,handleVisible}) {
     //        userMail:userEmail
     //    })
     // context.getRecords()
+    })
+    .catch(err=>{
+        message.error('an error occured')
+        context.setLoading()
+          
     })
 
         

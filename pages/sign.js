@@ -44,7 +44,7 @@ overflow:hidden;
         justify-content:center;
         align-items:center;
         h4{
-            width:100px;
+            width:80%;
             height:30px;
             background-color:red;
             margin:20px;
@@ -78,6 +78,7 @@ export default function Sign() {
         address:''
     }
     const context=useContext(AcronCo)
+    const isLoading=context.loading
     const router=useRouter()
     const [google,setgoo]=useState('')
     const[options,setOptions]=useState(initalValues)
@@ -89,22 +90,29 @@ export default function Sign() {
         })
     }
     function handleSubmit() {
-        console.log(options)
+        context.setLoading()
         if (options.password==''||options.phone==''||options.email=='') {
-            return message.error('you cant add an empty field')
+            return message.error('you cant add an empty field'),context.setLoading()
+
         }
         const users=firebase.firestore().collection('users');
         users.add(options).then(ref=>{
             firebase.auth().createUserWithEmailAndPassword(options.email,options.password)
             .then(dt=>{
                 message.success('Addedd succesfully!!!!!!')
+                context.setLoading()
                 setOptions(initalValues)
+            })
+            .catch(err=>{
+                message.error('erro')
+                context.setLoading()
             })
         })
     }
     function handleGoogleAuth() {
         var provider=new firebaseApp.auth.GoogleAuthProvider()
         const users=firebase.firestore().collection('users');
+        context.setLoading()
         firebase.auth()
        .signInWithPopup(provider)
        .then((result) => {
@@ -119,6 +127,7 @@ export default function Sign() {
         if (isNew) {
             let phone=null;
             if (!user.phoneNumber) {
+                context.setLoading()
                 phone=prompt('enter your phone number');
                 }else{
                     phone=user.phoneNumber;
@@ -140,8 +149,16 @@ export default function Sign() {
                           phone:phoneNum
                       }
                     ).then(ref=>{
-                      message.success('addedd success')
+                      message.success('addedd successfully')
                       router.push('/login')
+                      if (user.phoneNumber) {
+                        context.setLoading()
+                      }
+                    }).catch(err=>{
+                        message.error('errrorr')
+                        if (user.phoneNumber) {
+                            context.setLoading()
+                          }
                     })
                     }
             
@@ -154,6 +171,11 @@ export default function Sign() {
         .then(dat=>{
            dat.docs.map(dt=>context.setUser(dt.data()));
             router.push('/account')
+            context.setLoading()
+        })
+        .catch(err=>{
+            message.error('errrorr')
+            context.setLoading()
         })
       }
       
@@ -161,7 +183,8 @@ export default function Sign() {
     }
     // ...
   }).catch((error) => {
-   console.log(error)
+message.error('errorr')
+context.setLoading()
   });
 
 
@@ -189,9 +212,8 @@ export default function Sign() {
         <StyledFormCont>
           <div className='form'>
           <h1>Sign Up</h1>
-          <h4>Sign up with your facebook or gmail acccount</h4>
+          <h4>Sign up with your gmail acccount</h4>
           <div className='social'>
-           <h4><FacebookOutlined></FacebookOutlined>facebook</h4>
            <h4 onClick={handleGoogleAuth}><GoogleOutlined></GoogleOutlined>Google</h4>
           </div>
           <Divider>Or</Divider>
