@@ -1,5 +1,5 @@
-import { LogoutOutlined, UserOutlined,FileAddOutlined, EditFilled, DeleteFilled, GlobalOutlined,HistoryOutlined} from '@ant-design/icons';
-import { Button, Empty } from 'antd';
+import { LogoutOutlined, UserOutlined,FileAddOutlined, EditFilled, DeleteFilled, GlobalOutlined,HistoryOutlined,TransactionOutlined} from '@ant-design/icons';
+import { Button, Empty, message } from 'antd';
 import React,{useState,useContext,useEffect} from 'react'
 import styled from 'styled-components'
 import AdForm from '../components/AdForm'
@@ -178,6 +178,33 @@ export default function Account() {
         const curr=userVisible;
         setUser(!curr)
     }
+    function handleUpdate(data) {
+        context.setLoading()
+        const user= firebase.firestore().collection('records');
+        user.where('imgUrl','==',data.imgUrl).where('address','==',data.address).get()
+        .then(dt=>{
+            dt.docs.map(main=>{
+                const id=main.id
+                user.doc(`${id}`)
+                .set({
+                    sold:'Sold'
+                },{merge:true})
+                .then(rt=>{
+                    context.setLoading()
+                    message.success('Update')
+                }).catch(err=>{
+                    message.error('Network Error')
+                })
+                
+              
+            })
+        })
+      
+            
+        
+        console.log(data)
+
+    }
     return (
         <StyledDash>
             {console.log(currentData)}
@@ -219,7 +246,7 @@ export default function Account() {
                              (
                                  currentData.map((dat,ind)=>(
                                     <div key={ind} className='mainList'>
-                                    <img src='/rural.png'></img>
+                                    <img src={dat.imgUrl}></img>
                                     <h4>{dat.category} At {dat.address}<br></br><GlobalOutlined style={{
                                         height:'10px',
                                         width:'10px'
@@ -229,19 +256,24 @@ export default function Account() {
                                         height:'10px',
                                         width:'10px'
                                     }}></HistoryOutlined></p>
-                                    <EditFilled style={{
-                                        width:'30px',
-                                      height:'30px',
-                                      marginLeft:'10px',
-                                      cursor: 'pointer'
-                                    }}></EditFilled>
-                                    <DeleteFilled style={{
+                                   {
+                                       dat.sold&&
+                                       (<span style={{
+                                       marginLeft:'20px',
+                                       color:'lightseagreen'
+                                   }}>Sold</span>)}
+                                    {
+                                        
+                                    !dat.sold&&
+                                    (<DeleteFilled onClick={()=>{
+                                        handleUpdate(dat)
+                                    }} style={{
                                         color:'red',
                                         width:'30px',
                                       height:'30px',
                                       marginLeft:'10px',
                                       cursor: 'pointer'
-                                    }}></DeleteFilled>
+                                    }}></DeleteFilled>)}
                                   </div>
                              ))
                                 

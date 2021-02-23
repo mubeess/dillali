@@ -1,7 +1,7 @@
 import React,{useContext} from 'react'
 import styled from 'styled-components';
 import AcronymContext from '../context/acronym/acronymContext' 
-import {StarOutlined,UserOutlined,PhoneOutlined,MailOutlined} from '@ant-design/icons'
+import {StarOutlined,UserOutlined,PhoneOutlined,MailOutlined, MoneyCollectOutlined, NotificationOutlined} from '@ant-design/icons'
 import Link from 'next/link';
 import {useRouter} from 'next/router'
 import { Button } from 'antd';
@@ -131,6 +131,29 @@ export default function Advert({data}) {
            </div>
            <div className='mainDet'>
                <h1>{data.category} At {data.address}</h1>
+               {
+                   data.sold&&
+                   (
+                <h3 style={{
+                    color:'brown'
+                }}>
+                    <MoneyCollectOutlined></MoneyCollectOutlined>
+                    Sold Out
+                </h3>
+                   )
+               }
+               {
+                   !data.sold&&
+                   (
+                <h3 style={{
+                    color:'lightseagreen'
+                }}>
+                    <NotificationOutlined></NotificationOutlined>
+                    Available
+                </h3>
+                   )
+               }
+               
                <p>
                    {data.description}
                </p>
