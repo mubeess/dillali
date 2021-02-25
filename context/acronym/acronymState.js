@@ -31,36 +31,34 @@ const [state,dispatch]=useReducer(authReducer,initState)
 
 //GET ACR
 const setUser=(id={})=>{
-    // const user=[{name:'mubis',phone:'09099899'},{name:'user',phone:'9090'},]
-    // const curUser=user.filter(user=>user.name==id)
     dispatch({type:SET_USER,payload:id})
 }
 //GET RECORDS
-const getRecords=()=>{
-    const db=firebase.firestore().collection('records');
-    const user=firebase.firestore().collection('users');
-    const  allRecords=[]
-    db.get().then(snapshot=>{
-        snapshot.docs.map(doc=>{
-          const snap=user.where('email','==',doc.data().userMail).get()
-          .then(main=>{
-              let rowDat=doc.data()
-              main.docs.map(dts=>{
-                rowDat.mainUser=dts.data()
-                allRecords.push(rowDat)
-              })
-            //   rowDat.mainUser=main;
-            //   allRecords.push(rowDat)
- })
-         .then(dt=>{
-          dispatch({type:SET_RECORDS,payload:allRecords})
-         })
+// const getRecords=()=>{
+//     const db=firebase.firestore().collection('records');
+//     const user=firebase.firestore().collection('users');
+//     const  allRecords=[]
+//     db.get().then(snapshot=>{
+//         snapshot.docs.map(doc=>{
+//           const snap=user.where('email','==',doc.data().userMail).get()
+//           .then(main=>{
+//               let rowDat=doc.data()
+//               main.docs.map(dts=>{
+//                 rowDat.mainUser=dts.data()
+//                 allRecords.push(rowDat)
+//               })
+//             //   rowDat.mainUser=main;
+//             //   allRecords.push(rowDat)
+//  })
+//          .then(dt=>{
+//           dispatch({type:SET_RECORDS,payload:allRecords})
+//          })
              
             
-        })
-})
+//         })
+// })
   
-}
+// }
 //UPLOAD RECORDS
 const setIslogged=()=>{
     dispatch({type:SET_ISLOGGEDIN})
@@ -105,7 +103,6 @@ value={{
     loading:state.loading,
     setUser,
     records:state.records,
-    getRecords,
     currentRecords:state.currentRecords,
     setCurrent,
     isLogged:state.isLogged,

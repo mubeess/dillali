@@ -73,7 +73,7 @@ export default function Sign() {
         firstName:'',
         lastName:'',
         email:'',
-        phone:0,
+        phone:'',
         password:'',
         address:''
     }
@@ -134,7 +134,6 @@ export default function Sign() {
                 }
 
                 if ( phone!= null) {
-                    console.log(name,email,phone)
                     const firstName=name.split(' ')[0];
                     const secondName=name.split(' ')[1];
                     const mail=email;
@@ -241,14 +240,14 @@ context.setLoading()
                marginTop:'20px',
               
               
-           }} type='number' name='phone' placeholder='Phone Number'></Input>
+           }} type='text' name='phone' placeholder='Phone Number'></Input>
 
            <Input value={options.password} onChange={handleChang}  style={{
                width:'100%',
                marginTop:'20px',
               
               
-           }} type='password' name='password' placeholder='Password'></Input>
+           }} type='password' name='password' placeholder='Password | more than 7 chars'></Input>
 
           <Input value={options.address} onChange={handleChang}  style={{
                width:'100%',

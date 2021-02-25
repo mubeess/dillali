@@ -1,10 +1,12 @@
 import React,{useContext} from 'react'
 import AcronynmCont from '../../context/acronym/acronymContext'
 import styled from 'styled-components';
-import {MailOutlined, PhoneOutlined, UserOutlined, VerifiedOutlined,AlertOutlined,GlobalOutlined} from '@ant-design/icons'
-import { Button, Input } from 'antd';
+import {MailOutlined, PhoneOutlined, UserOutlined, VerifiedOutlined,AlertOutlined,GlobalOutlined, FacebookFilled, WhatsAppOutlined} from '@ant-design/icons'
+import { Button, Divider, Input } from 'antd';
 import Link from 'next/link';
 import Skeleton from '../../components/Skeleton' 
+import { FacebookButton, FacebookCount } from "react-social";
+import Head from 'next/head';
 
 const StyledDetatils=styled.div`
 margin-top:150px;
@@ -111,11 +113,24 @@ grid-template-columns:1fr 1fr;
         h3{
             text-align:center;
             color:white;
+        
         }
            
            
         }
         
+    }
+    .socialShare{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        svg{
+            height:20px;
+            width:20px;
+            cursor:pointer;
+        }
+        
+
     }
 `;
 export default function Details() {
@@ -171,7 +186,7 @@ export default function Details() {
                  <i><h5>The Price Mentioned Above is Negotiable</h5></i>
             </div>
             <div className='buts'>
-           <Link href={`tel:{${currentRecords[0].mainUser.phone}}`}>
+           <Link href={`tel:${currentRecords[0].mainUser.phone}`}>
              <h3><PhoneOutlined></PhoneOutlined>Place Call</h3>
            </Link>
             </div>
@@ -179,7 +194,15 @@ export default function Details() {
            </>
                 )
             }
-          
+          <Divider>Share</Divider>
+          <div className='socialShare'>
+            <FacebookButton url='dillali.vercel.app/' appId='738348383527965'>
+            <FacebookFilled style={{
+                marginRight:'20px',
+                color:'blue',
+            }}></FacebookFilled>
+         </FacebookButton>
+          </div>
         </StyledDetatils>
     )
 }

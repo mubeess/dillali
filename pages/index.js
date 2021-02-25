@@ -64,7 +64,6 @@ export default function Home() {
   return (
     <StyledIn>
       <div className='search'>
-        {console.log(ultraFilterd)}
         <Input onChange={handleSearch} prefix={<SearchOutlined></SearchOutlined>} type='text' placeholder='Search By L.G.A,Ward or Category'></Input>
       </div>
       {ultraFilterd.length&&
@@ -96,6 +95,7 @@ export default function Home() {
       </div>
     )
   }
+  
 <div>
 <Pagination onChange={handleVal} current={curr} total={ultraFilterd.length} defaultPageSize={perPage}></Pagination>
 </div>      

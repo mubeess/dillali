@@ -150,7 +150,6 @@ export default function Account() {
         const user= firebase.firestore().collection('records');
         user.where('userMail','==',context.user.email).onSnapshot(snap=>{
             snap.docs.map(doc=>{
-                console.log(doc.data())
                 dataDisplay.push(doc.data())
             })
             setCurData(dataDisplay)
@@ -201,13 +200,11 @@ export default function Account() {
         })
       
             
-        
-        console.log(data)
+
 
     }
     return (
         <StyledDash>
-            {console.log(currentData)}
             {
                 isUser&&
                 (
@@ -223,7 +220,6 @@ export default function Account() {
                    </div>
                    <div className='welcome'>
                     <h1>
-                        {console.log(context)}
                         Hi, {context.user.firstName} {context.user.lastName} - Welcome To Dillali's Dashboard
                     </h1>
                     <h4>
