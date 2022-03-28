@@ -17,8 +17,8 @@ export default function Nav() {
         <Link href='/'>Home</Link>
         <Link href='/about'>About Us</Link>
         <Link href='/contact'>Contact</Link>
-        <Link href='/account'>Account</Link>
-        <Link href='/sign'>Sign Up</Link>
+        {/* <Link href='/account'>Account</Link>
+        <Link href='/sign'>Sign Up</Link> */}
     </NavStyles>
     )
 }

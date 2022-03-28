@@ -38,9 +38,10 @@ position:relative;
 `;
 export default function Home() {
  const datas =useContext(AuthContext)
-  const data=datas.records;
+  // const data=datas.records;
   const seen=new Set()
   const [searchVal,setSearch]=useState('')
+  const [data,setData]=useState([])
   const [minVal,setMin]=useState(0)
   const [maxVal,setMax]=useState(6)
   const [curr,setCurr]=useState(1)
@@ -50,12 +51,26 @@ export default function Home() {
     let MaxCalc=val*perPage;
     setCurr(val),setMin(minIndCal),setMax(MaxCalc),window.scrollTo({top:0,behavior:'smooth'})
   }
-  const filtered=data.filter(dat=>dat.state.toLowerCase().includes(searchVal.toLowerCase())||dat.lga.toLowerCase().includes(searchVal.toLowerCase())||dat.category.toLowerCase().includes(searchVal.toLowerCase()))
-  const ultraFilterd=filtered.filter(el=>{
-    const duplicate=seen.has(el.imgUrl);
-    seen.add(el.imgUrl)
-    return !duplicate
-  })
+
+  const loadData=()=>{
+    fetch('https://dillali.herokuapp.com/products')
+    .then(res=>{
+        res.json()
+        .then(data=>{
+          setData(data)
+           
+        })
+    })
+}
+  useEffect(()=>{
+  loadData()
+  },[])
+  const filtered=data.length>0?data.filter(dat=>
+    dat.state.toLowerCase().includes(searchVal.toLowerCase())
+    ||dat.lga.toLowerCase().includes(searchVal.toLowerCase())||
+    dat.category.toLowerCase().includes(searchVal.toLowerCase())
+   ):[]
+ 
   function handleSearch(e) {
     const {value}=e.target;
     setSearch(value)
@@ -66,8 +81,8 @@ export default function Home() {
       <div className='search'>
         <Input onChange={handleSearch} prefix={<SearchOutlined></SearchOutlined>} type='text' placeholder='Search By L.G.A,Ward or Category'></Input>
       </div>
-      {ultraFilterd.length&&
-       ultraFilterd.map((data,ind)=>
+      {filtered.length&&
+       filtered.map((data,ind)=>
         ind>=minVal&&ind<maxVal&&(
         <Advert data={data} key={ind}>
        </Advert>
@@ -97,8 +112,10 @@ export default function Home() {
   }
   
 <div>
-<Pagination onChange={handleVal} current={curr} total={ultraFilterd.length} defaultPageSize={perPage}></Pagination>
+<Pagination onChange={handleVal} current={curr} total={filtered.length} defaultPageSize={perPage}></Pagination>
 </div>      
     </StyledIn>
   )
 }
+
+

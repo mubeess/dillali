@@ -90,12 +90,16 @@ svg{
 const LinksStyled=styled.div`
 display: flex;
 flex-direction:column;
-a{
+span{
+  min-width: 100%;
+}
+span{
   font-size:15px;
   padding:10px;
   border-bottom:1px solid gray;
   font-weight:100;
   text-transform:uppercase;
+  min-width: 100%;
 }
 
 `;
@@ -136,17 +140,24 @@ export default function Header() {
   
       >
       <LinksStyled>
+         
+         <span onClick={handleDraw}>
          <Link href='/'>Home</Link>
-        <Link href='/about'>About Us</Link>
-        <Link href='/contact'>Contact</Link>
-        <Link href='/account'>Account</Link>
+         </span>
+         <span onClick={handleDraw}>
+         <Link href='/about'>About Us</Link>
+         </span>
+         <span onClick={handleDraw}>
+         <Link href='/contact'>Contact</Link>
+         </span>
+        {/* <Link href='/account'>Account</Link> */}
         </LinksStyled>
-        <Button onClick={()=>{
+        {/* <Button onClick={()=>{
           router.push('/sign')
         }} type='primary' style={{
           width:'80%',
           marginTop:'100px'
-        }}>Sign Up</Button>
+        }}>Sign Up</Button> */}
       </Drawer>
        </HeaderStyled>
      

@@ -6,6 +6,9 @@ import { Button, Divider, Input } from 'antd';
 import Link from 'next/link';
 import Skeleton from '../../components/Skeleton' 
 import { FacebookButton, FacebookCount } from "react-social";
+import { Carousel } from 'react-responsive-carousel';
+
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Head from 'next/head';
 
 const StyledDetatils=styled.div`
@@ -39,12 +42,21 @@ grid-template-columns:1fr 1fr;
         margin-left:auto;
         margin-right:auto;
     }
+    video{
+        width:80%;
+        height:350px;
+        margin-left:auto;
+        margin-right:auto;
+    }
 }
 @media screen and (max-width:1000px){
       grid-template-columns:1fr;
       .picss{
           img{
               width:95%;
+          }
+          video{
+              width: 95%;
           }
       }
     }
@@ -159,14 +171,33 @@ export default function Details() {
                     <div>
                     <VerifiedOutlined></VerifiedOutlined><h4>More Details</h4>
                     </div>
-                    <img src={currentRecords[0].imgUrl} alt='image'></img> 
+                    <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false}  showArrows={false}>
+                    {
+                        currentRecords[0].images.map(im=>(
+                            <>
+                             {im.url.includes('.mp4')&&(
+                             
+                             <video  autoPlay muted controls>
+                                 <source src={im.url} type="video/mp4"></source> 
+                             </video>
+                             
+                             )}
+                             {im.url.includes('.jpeg')||im.url.includes('.jpg')||im.url.includes('.png')?
+                                <img src={im.url}/>
+                                :null}
+                            </>
+                        ))
+                    }
+                    
+                    </Carousel>
+                    
                 </div> 
        
        
                 <div className='otherDet'>
        
                     {console.log(currentRecords,'cuuuu')}
-                 <h1>{currentRecords[0].category} Available</h1>
+                 <h1>{currentRecords[0].name} Available</h1>
             <div className='desc'>
                    <span>Description</span>
                  <p>{currentRecords[0].description}
@@ -176,17 +207,17 @@ export default function Details() {
               <h3>₦{currentRecords[0].amount}</h3>
             </div>
              <div className='otherss'>
-              <div><UserOutlined></UserOutlined><h4>Agent:{currentRecords[0].mainUser.firstName}</h4></div>
-              <div><PhoneOutlined></PhoneOutlined><h4>Phone:{currentRecords[0].mainUser.phone}</h4></div>
-              <div><MailOutlined></MailOutlined><h4>Mail:{currentRecords[0].mainUser.email}</h4></div>
-              <div><GlobalOutlined></GlobalOutlined><h4>Location:{currentRecords[0].lga},{currentRecords[0].mainUser.address}</h4></div>
+              <div><UserOutlined></UserOutlined><h4>Agent:Dillali Agency Limited</h4></div>
+              <div><PhoneOutlined></PhoneOutlined><h4>Phone:08164942224</h4></div>
+              <div><MailOutlined></MailOutlined><h4>Mail:mubarakibrahim2015@gmail.com</h4></div>
+              <div><GlobalOutlined></GlobalOutlined><h4>Location:{currentRecords[0].lga},{currentRecords[0].address}</h4></div>
              </div>
              <div className='disclaimer'>
                  <AlertOutlined></AlertOutlined>
                  <i><h5>The Price Mentioned Above is Negotiable</h5></i>
             </div>
             <div className='buts'>
-           <Link href={`tel:${currentRecords[0].mainUser.phone}`}>
+           <Link href={`tel:08164942224`}>
              <h3><PhoneOutlined></PhoneOutlined>Place Call</h3>
            </Link>
             </div>

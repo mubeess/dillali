@@ -22,10 +22,7 @@ export function AuthState(props){
      
         
     }
-    useEffect(()=>{
-   updateRecord()
 
-    },[])
 
 const [state,dispatch]=useReducer(authReducer,initState)
 
@@ -33,32 +30,7 @@ const [state,dispatch]=useReducer(authReducer,initState)
 const setUser=(id={})=>{
     dispatch({type:SET_USER,payload:id})
 }
-//GET RECORDS
-// const getRecords=()=>{
-//     const db=firebase.firestore().collection('records');
-//     const user=firebase.firestore().collection('users');
-//     const  allRecords=[]
-//     db.get().then(snapshot=>{
-//         snapshot.docs.map(doc=>{
-//           const snap=user.where('email','==',doc.data().userMail).get()
-//           .then(main=>{
-//               let rowDat=doc.data()
-//               main.docs.map(dts=>{
-//                 rowDat.mainUser=dts.data()
-//                 allRecords.push(rowDat)
-//               })
-//             //   rowDat.mainUser=main;
-//             //   allRecords.push(rowDat)
-//  })
-//          .then(dt=>{
-//           dispatch({type:SET_RECORDS,payload:allRecords})
-//          })
-             
-            
-//         })
-// })
-  
-// }
+
 //UPLOAD RECORDS
 const setIslogged=()=>{
     dispatch({type:SET_ISLOGGEDIN})
@@ -70,19 +42,28 @@ const updateRecord=()=>{
     const  allRecords=[]
     db.onSnapshot(snapshot=>{
         snapshot.docs.map(doc=>{
-        user.where('email','==',doc.data().userMail).get()
-            .then(main=>{
-                let rowDat=doc.data()
-                main.docs.map(dts=>{
-                  rowDat.mainUser=dts.data()
-                  allRecords.push(rowDat)
-                })
-              //   rowDat.mainUser=main;
-              //   allRecords.push(rowDat)
-   })
-   .then(dt=>{
-    dispatch({type:SET_RECORDS,payload:allRecords})
-   })
+        user.get()
+        .then(dat=>{
+        let rowDat=doc.data()
+        allRecords.push(rowDat)
+        })
+        .then(dt=>{
+            dispatch({type:SET_RECORDS,payload:allRecords})
+        })
+        
+//         user.where('email','==',doc.data().userMail).get()
+//             .then(main=>{
+//                 let rowDat=doc.data()
+//                 main.docs.map(dts=>{
+//                   rowDat.mainUser=dts.data()
+//                   allRecords.push(rowDat)
+//                 })
+//               //   rowDat.mainUser=main;
+//               //   allRecords.push(rowDat)
+//    })
+//    .then(dt=>{
+//     dispatch({type:SET_RECORDS,payload:allRecords})
+//    })
         })
     })
 }

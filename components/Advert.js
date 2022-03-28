@@ -121,7 +121,7 @@ export default function Advert({data}) {
     return (
         <StyledAd>
            <div style={{
-               background:`linear-gradient(to right, rgba(0, 0, 0, 0.209),rgba(0, 0, 0, 0.309)),url(${data.imgUrl}),no-repeat,center`,
+               background:`linear-gradient(to right, rgba(0, 0, 0, 0.209),rgba(0, 0, 0, 0.309)),url(${data.images[0].url}),no-repeat,center`,
                height:'200px',
                width:'100%',
                
@@ -130,7 +130,7 @@ export default function Advert({data}) {
             <h3>{data.category}<StarOutlined></StarOutlined><StarOutlined></StarOutlined></h3>
            </div>
            <div className='mainDet'>
-               <h1>{data.category} At {data.address}</h1>
+               <h1>{data.name} At {data.address}</h1>
                {
                    data.sold&&
                    (
@@ -160,13 +160,13 @@ export default function Advert({data}) {
         <div className='allDet'>               
             <div className='moreDet'>
                  <div>
-                 <UserOutlined></UserOutlined><h4>Agent:{data.mainUser.firstName} {data.mainUser.lastName}</h4>
+                 <UserOutlined></UserOutlined><h4>Agent:Dillali Agency</h4>
                  </div>
                  <div>
-                <PhoneOutlined></PhoneOutlined><h4>Phone:{data.mainUser.phone}</h4>     
+                <PhoneOutlined></PhoneOutlined><h4>Phone:08164942224</h4>     
                  </div>
                  <div>
-                     <MailOutlined></MailOutlined><h4>Email:{data.mainUser.email}</h4>
+                     <MailOutlined></MailOutlined><h4>Email:mubarakibrahim2015@gmail.com</h4>
                  </div>
                 <div className='price'>
              <h2>₦{data.amount}</h2> 
@@ -179,7 +179,6 @@ export default function Advert({data}) {
           <Button onClick={()=>{
               context.setCurrent([data])
                router.push(`details/`)
-               console.log([data],'seteeeeee')
           }} style={{
             marginLeft:'25%',
             marginTop:'20px',
