@@ -48,6 +48,11 @@ grid-template-columns:1fr 1fr;
         margin-left:auto;
         margin-right:auto;
     }
+    .cars{
+        width:80%;
+        margin-left:auto;
+        margin-right:auto;
+    }
 }
 @media screen and (max-width:1000px){
       grid-template-columns:1fr;
@@ -171,7 +176,8 @@ export default function Details() {
                     <div>
                     <VerifiedOutlined></VerifiedOutlined><h4>More Details</h4>
                     </div>
-                    <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false}  showArrows={false}>
+                    <div className='cars'>
+                    <Carousel  infiniteLoop={true} autoPlay={true} showThumbs={false}  showArrows={false}>
                     {
                         currentRecords[0].images.map(im=>(
                             <>
@@ -183,13 +189,17 @@ export default function Details() {
                              
                              )}
                              {im.url.includes('.jpeg')||im.url.includes('.jpg')||im.url.includes('.png')?
-                                <img src={im.url}/>
+                                <img onClick={()=>{
+                                    console.log(im)
+                                }} src={im.url}/>
                                 :null}
                             </>
                         ))
                     }
                     
                     </Carousel>
+                    </div>
+                    
                     
                 </div> 
        
