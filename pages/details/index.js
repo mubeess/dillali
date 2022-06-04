@@ -177,7 +177,7 @@ export default function Details() {
                     <VerifiedOutlined></VerifiedOutlined><h4>More Details</h4>
                     </div>
                     <div className='cars'>
-                    <Carousel  infiniteLoop={true} autoPlay={true} showThumbs={false}  showArrows={false}>
+                    <Carousel  autoPlay={false} showThumbs={false} showArrows={false}>
                     {
                         currentRecords[0].images.map(im=>(
                             <>
@@ -217,8 +217,8 @@ export default function Details() {
               <h3>₦{currentRecords[0].amount}</h3>
             </div>
              <div className='otherss'>
-              <div><UserOutlined></UserOutlined><h4>Agent:Dillali Agency Limited</h4></div>
               <div><PhoneOutlined></PhoneOutlined><h4>Phone:08164942224</h4></div>
+              <div><PhoneOutlined></PhoneOutlined><h4>Phone:08037955978</h4></div>
               <div><MailOutlined></MailOutlined><h4>Mail:mubarakibrahim2015@gmail.com</h4></div>
               <div><GlobalOutlined></GlobalOutlined><h4>Location:{currentRecords[0].lga},{currentRecords[0].address}</h4></div>
              </div>

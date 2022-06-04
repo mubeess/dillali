@@ -130,7 +130,7 @@ export default function Advert({data}) {
             <h3>{data.category}<StarOutlined></StarOutlined><StarOutlined></StarOutlined></h3>
            </div>
            <div className='mainDet'>
-               <h1>{data.name} At {data.address}</h1>
+               <h1>{data.name}, {data.address}</h1>
                {
                    data.sold&&
                    (
@@ -160,10 +160,10 @@ export default function Advert({data}) {
         <div className='allDet'>               
             <div className='moreDet'>
                  <div>
-                 <UserOutlined></UserOutlined><h4>Agent:Dillali Agency</h4>
+                 <PhoneOutlined></PhoneOutlined><h4>Phone:08037955978</h4>
                  </div>
                  <div>
-                <PhoneOutlined></PhoneOutlined><h4>Phone:08164942224</h4>     
+                <PhoneOutlined></PhoneOutlined><h4>Phone:08164942224</h4>
                  </div>
                  <div>
                      <MailOutlined></MailOutlined><h4>Email:mubarakibrahim2015@gmail.com</h4>

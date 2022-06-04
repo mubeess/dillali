@@ -113,8 +113,7 @@ export default function Header() {
     return (
        <HeaderStyled>
       <div className='logo'>
-        <img src='/animated.gif'></img>
-        <h1>illali</h1>
+        <img src='/logoAh.png'></img>
       </div>
       <div className='links'>
       <Nav></Nav>

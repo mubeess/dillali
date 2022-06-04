@@ -33,11 +33,13 @@ export default function About() {
     return (
         <StyledAbout>
           <div className='body'>
-              <h1>ABOUT</h1>
+              <h1>ABOUT US</h1>
               <h4>
                 The idea of this app came as a result of indepth
-                and thorogh thought of problems in our locality,
-                and seeing way farward of countering these problems
+                and thorogh thought of problems in the real estate management sector
+                ranging from distrust between the agents and the vendors.The system
+                operates in a transparent way and thus solve the major problem
+                of the real estate sector.
 
               </h4>
               <Divider></Divider>
